@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class ButtonManager : MonoBehaviour
 {
     public float speed = 2;
@@ -10,36 +11,80 @@ public class ButtonManager : MonoBehaviour
     int soldierScoreNum;
     public Text soldierCarry;
     int OnHeli;
+    bool dead;
+    public Text gameOver;
+    public AudioSource pickUp;
+    public Text gameWin;
+    bool win;
+
     // Start is called before the first frame update
     void Start()
     {
         OnHeli = 0;
         soldierScoreNum = 0;
+        dead = false;
+        win = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.D)){
-            transform.Translate(new Vector3(1,0,0) * speed * Time.deltaTime);
-        }else if(Input.GetKey(KeyCode.A)){
-            transform.Translate(new Vector3(-1,0,0) * speed * Time.deltaTime);
+        if (!dead)
+        {
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.Translate(new Vector3(1, 0, 0) * speed * Time.deltaTime);
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                transform.Translate(new Vector3(-1, 0, 0) * speed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.Translate(new Vector3(0, 1, 0) * speed * Time.deltaTime);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                transform.Translate(new Vector3(0, -1, 0) * speed * Time.deltaTime);
+            }
+
+            soldierCarry.text = "Soldiers in Helicopter: " + OnHeli.ToString();
+            soldierScore.text = "Soldiers in Hospital: " + soldierScoreNum.ToString();
+
         }
-        if(Input.GetKey(KeyCode.W)){
-            transform.Translate(new Vector3(0,1,0) * speed * Time.deltaTime);
-        }else if(Input.GetKey(KeyCode.S)){
-            transform.Translate(new Vector3(0,-1,0) * speed * Time.deltaTime);
+        else
+        {
+            if (gameOver)
+            {
+                gameOver.gameObject.SetActive(true);
+            }
         }
 
-        soldierCarry.text = string.Format("Soldiers In Helicopter: ", OnHeli);
-        soldierScore.text = string.Format("Soldiers in Hospital: ", soldierScoreNum);
-    }
+        }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+        private void OnTriggerEnter2D(Collider2D other) {
         Debug.Log("Collision");
         if(other.tag == "soldier" && OnHeli < 3){
             Destroy(other.gameObject);
             OnHeli++;
+            if (pickUp) { 
+            pickUp.Play();
+                }
+        }else if(other.tag == "tree" && !win)
+        {
+            dead = true;
+        }else if(other.tag == "hospital")
+        {
+            soldierScoreNum += OnHeli;
+            OnHeli = 0;
+            if(soldierScoreNum == 4)
+            {
+                if (gameWin)
+                {
+                    gameWin.gameObject.SetActive(true);
+                    win = true;
+                }
+            }
         }
     }
 }
