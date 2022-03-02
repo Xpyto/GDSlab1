@@ -660,7 +660,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1337686375
 RectTransform:
   m_ObjectHideFlags: 0
@@ -687,7 +687,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1337686374}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
@@ -967,6 +967,7 @@ MonoBehaviour:
   speed: 4
   soldierScore: {fileID: 440381575}
   soldierCarry: {fileID: 115786933}
+  gameOver: {fileID: 1337686376}
 --- !u!58 &1992750678
 CircleCollider2D:
   m_ObjectHideFlags: 0
