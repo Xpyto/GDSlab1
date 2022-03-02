@@ -6,11 +6,12 @@ TagManager:
   tags:
   - soldier
   - tree
+  - hospital
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
   - 

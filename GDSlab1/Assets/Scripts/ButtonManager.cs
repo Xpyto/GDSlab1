@@ -13,6 +13,9 @@ public class ButtonManager : MonoBehaviour
     int OnHeli;
     bool dead;
     public Text gameOver;
+    public AudioSource pickUp;
+    public Text gameWin;
+    bool win;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +23,7 @@ public class ButtonManager : MonoBehaviour
         OnHeli = 0;
         soldierScoreNum = 0;
         dead = false;
+        win = false;
     }
 
     // Update is called once per frame
@@ -63,9 +67,24 @@ public class ButtonManager : MonoBehaviour
         if(other.tag == "soldier" && OnHeli < 3){
             Destroy(other.gameObject);
             OnHeli++;
-        }else if(other.tag == "tree")
+            if (pickUp) { 
+            pickUp.Play();
+                }
+        }else if(other.tag == "tree" && !win)
         {
             dead = true;
+        }else if(other.tag == "hospital")
+        {
+            soldierScoreNum += OnHeli;
+            OnHeli = 0;
+            if(soldierScoreNum == 4)
+            {
+                if (gameWin)
+                {
+                    gameWin.gameObject.SetActive(true);
+                    win = true;
+                }
+            }
         }
     }
 }
